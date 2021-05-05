@@ -60,3 +60,39 @@ body{
     left: 10px;
     bottom: 2px;
 }
+
+.brand-footer {
+    position: relative;
+    align-self: flex-end;
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    top: auto;
+    bottom: 0;
+    background-color: #efefef;
+}
+
+.brand-footer-background {
+    background-color: #efefef;
+}
+
+.brand-footer-login {
+    font-size: large;
+    font-weight: bold;
+}
+  
+.brand-footer-link {
+    color: #292929;
+    font-size: large;
+    transition: 0.3s;
+}
+  
+.brand-footer-link:hover {
+    color: #005d91;
+    text-decoration: none;
+}
+
+.brand-text-center {
+    text-align: center;
+}

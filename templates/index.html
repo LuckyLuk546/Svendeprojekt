@@ -9,15 +9,18 @@
 <div id="image-slider" class="splide">
 	<div class="splide__track">
 		<ul class="splide__list">
-			<li class="splide__slide">
-				<img src="static/images/range.jpg">
-				<div class="image_slider_txt">
-					4.850,- /md<br>
-					33.000 km<br>
-					2017
-				</div>
-			</li>
-			<li class="splide__slide">
+            {% for index,row in table.iterrows() %}
+                <li class="splide__slide">
+                    <img src="static/images/range.jpg">
+                    <div class="image_slider_txt">
+                        {{ row.Car_brand}}, {{ row.Car_model}}<br>
+                        {{ ((((((row.Car_price)/100)*80)/12)|round(2))|string).split('.')[0] }},- /md<br>
+                        {{ row.Car_mileage}} km<br>
+                        {{ row.Car_model_year}}
+                    </div>
+                </li>
+            {% endfor %}
+			{# <li class="splide__slide">
 				<img src="static/images/porsche.jpg">
 				<div class="image_slider_txt">
 					3.000,- /md<br>
@@ -32,7 +35,7 @@
 					2.400 km<br>
 					2016
 				</div>
-			</li>
+			</li> #}
 		</ul>
 	</div>
 </div>
