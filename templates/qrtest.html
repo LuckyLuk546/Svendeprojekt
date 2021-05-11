@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+{% set active_page = "forside" %} 
+{% block title %}{{title}}{% endblock %} 
+
+{% block content %}
+  
+<h1>{{ title }}</h1>
+
+<div>
+    <img src="https://chart.googleapis.com/chart?cht=qr&chl=svend.azurewebsites.net/{{ title }}&chs=150x150&chld=L|0" class="qr-code img-thumbnail img-responsive"/>
+</div>
+
+
+{% endblock %}
