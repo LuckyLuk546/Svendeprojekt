@@ -16,3 +16,13 @@ def index(template):
     table = dataconnection.get_newest_cars().fillna(-1)
     table[['Car_price']] = table[['Car_price']].astype(int) # Fjerner .0
     return render_template("index.html", today=today, yesterday=yesterday, weekday=weekday, table=table, title='Forside')
+
+@app.route("/qrtest")
+@mobile_template('{mobile/}qrtest.html')
+def qrtest(template):
+    today = date.today()
+    yesterday = today - timedelta(days=1)
+    weekday = date.today().weekday()
+    table = dataconnection.get_newest_cars().fillna(-1)
+    table[['Car_price']] = table[['Car_price']].astype(int) # Fjerner .0
+    return render_template("qrtest.html", today=today, yesterday=yesterday, weekday=weekday, table=table, title='Qrtest')
