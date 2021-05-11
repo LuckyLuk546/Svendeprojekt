@@ -96,3 +96,8 @@ body{
 .brand-text-center {
     text-align: center;
 }
+
+.qr-code {
+    max-width: 200px;
+    margin: 10px;
+  }

@@ -7,6 +7,9 @@ username = 'Lukas546'
 password = 'Idiot546'   
 driver= '{ODBC Driver 17 for SQL Server}'   
 
+
+## Connection ##
+
 with pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
     with conn.cursor() as cursor:
         cursor.execute("SELECT TOP 3 name, collation_name FROM sys.databases")
@@ -41,6 +44,9 @@ def con_alive(con):
         alive = True
         row = cursor.fetchone()
     return alive
+
+
+## Queries ##
 
 # Get new cars
 def get_newest_cars(): 
