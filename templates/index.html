@@ -14,29 +14,13 @@
                 <li class="splide__slide">
                     <img src="static/images/range.jpg">
                     <div class="image_slider_txt">
-                        {{ row.Car_brand}}, {{ row.Car_model}}<br>
-                        {{ ((((((row.Car_price)/100)*80)/12)|round(2))|string).split('.')[0] }},- /md<br>
-                        {{ row.Car_mileage}} km<br>
-                        {{ row.Car_model_year}}
+                        {{ row.car_brand}}, {{ row.car_model}}<br>
+                        {{ ((((((row.car_price)/100)*80)/12)|round(2))|string).split('.')[0] }},- /md<br>
+                        {{ row.car_mileage}} km<br>
+                        {{ row.car_model_year}}
                     </div>
                 </li>
             {% endfor %}
-			{# <li class="splide__slide">
-				<img src="static/images/porsche.jpg">
-				<div class="image_slider_txt">
-					3.000,- /md<br>
-					67.000 km<br>
-					2008
-				</div>
-			</li>
-			<li class="splide__slide">
-				<img src="static/images/huracan.jpg">
-				<div class="image_slider_txt">
-					24.300,- /md<br>
-					2.400 km<br>
-					2016
-				</div>
-			</li> #}
 		</ul>
 	</div>
 </div>
@@ -49,10 +33,10 @@
     {# Lorem ipsum #}
     <section>
         <p>
-            {{ info_table.Info_text[0] }}
+            {{ info_table.info_text[0] }}
         </p>
         <p>
-            {{ info_table.Info_text[1] }}
+            {{ info_table.info_text[1] }}
         </p>
     </section>
     </div>
@@ -63,10 +47,10 @@
     {# Lorem ipsum #}
     <section>
         <p>
-            {{ info_table.Info_text[0] }}
+            {{ info_table.info_text[0] }}
         </p>
         <p>
-            {{ info_table.Info_text[1] }}
+            {{ info_table.info_text[1] }}
         </p>
     </section>
     </div>

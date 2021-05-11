@@ -16,8 +16,8 @@ def index(template):
     info_table = dataconnection.get_info_table().fillna(-1)
 
     table = dataconnection.get_newest_cars().fillna(-1)
-    table[['Car_price']] = table[['Car_price']].astype(int) # Fjerner .0
-    
+    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
+
     return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, title='Forside')
 
 @app.route("/qrtest")
@@ -28,7 +28,4 @@ def qrtest(template):
     weekday = date.today().weekday()
     info_table = dataconnection.get_info_table().fillna(-1)
 
-    table = dataconnection.get_newest_cars().fillna(-1)
-    table[['Car_price']] = table[['Car_price']].astype(int) # Fjerner .0
-
-    return render_template("qrtest.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, title='Qrtest')
+    return render_template("qrtest.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, title='Qrtest')
