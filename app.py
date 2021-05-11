@@ -8,6 +8,8 @@ app = Flask(__name__)
 Mobility(app)
 
 @app.route("/")
+@app.route("/index")
+@app.route("/forside")
 @mobile_template('{mobile/}index.html')
 def index(template):
     today = date.today()

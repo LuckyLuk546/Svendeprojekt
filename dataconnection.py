@@ -10,13 +10,13 @@ driver= '{ODBC Driver 17 for SQL Server}'
 
 ## Connection ##
 
-with pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT TOP 3 name, collation_name FROM sys.databases")
-        row = cursor.fetchone()
-        while row:
-            print (str(row[0]) + " " + str(row[1]))
-            row = cursor.fetchone()
+# with pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
+#     with conn.cursor() as cursor:
+#         cursor.execute("SELECT TOP 3 name, collation_name FROM sys.databases")
+#         row = cursor.fetchone()
+#         while row:
+#             print (str(row[0]) + " " + str(row[1]))
+#             row = cursor.fetchone()
 
 def get_con(): 
     try:
@@ -28,9 +28,9 @@ def get_con():
         
     if con is None:
         try: 
-            con = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + 'svenddata.database.windows.net' + ';DATABASE=' + 'svenddata' + ';UID=' + 'Lukas546' + ';PWD=' + 'Idiot546')
+            con = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
         except:
-            con = pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server};SERVER=' + 'svenddata.database.windows.net' + ';DATABASE=' + 'svenddata' + ';UID=' + 'Lukas546' + ';PWD=' + 'Idiot546')
+            con = pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server};SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
 
     return con
 
