@@ -1,9 +1,17 @@
-body{
+@font-face {
+    font-family: PostNordFont;
+    src: url('fonts/PostNordSans-Regular.ttf');
+}
+
+html, body{
+    height: 100%;
+    min-height: 100%;
     overflow-x: hidden;
 }
 
 #main-container {
     /* background-color: rgb(151, 151, 151); */
+    font-family: PostNordFont;
     min-height: 100vh;
 }
 
@@ -100,4 +108,44 @@ body{
 .qr-code {
     max-width: 200px;
     margin: 10px;
-  }
+}
+
+
+
+.frontpage-header {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.frontpage-subheader {
+    color: #ffffff;
+}
+
+.text-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.frontpage-header-background {
+    top: -24px;
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url(/static/images/frontpage_banner.jpg);
+    filter: grayscale(50%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height: 400px;
+    position: relative;
+    text-align: center;
+}
+
+.centered-vertical {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.car_overview {
+    margin-bottom: 40px;
+}

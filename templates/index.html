@@ -2,9 +2,28 @@
 {% set active_page = "forside" %} 
 {% block title %}{{title}}{% endblock %} 
 
+{% block banner %}
+
+{{ super() }}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col frontpage-header-background">
+            <div class="centered-vertical">
+                <h1 class="frontpage-header rounded-pill text-center">Svend Leasing</h1>
+                <h3 class="frontpage-subheader text-center">
+                    blablabla
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
 {% block content %}
 
-<h1>{{ title }}</h1>
+<h2>Nye biler</h2>
 
 {# Slideshow #}
 <div id="image-slider" class="splide">
@@ -28,7 +47,7 @@
 <br>
 <div class="row">
     <div class="col">
-    <h2>Hvad er flex leasing?</h2>
+    <h2>Hvad er flexleasing?</h2>
 
     {# Lorem ipsum #}
     <section>
@@ -42,7 +61,7 @@
     </div>
 
     <div class="col">
-    <h2>Hvorfor vælge flex leasing?</h2>
+    <h2>Hvorfor vælge flexleasing?</h2>
 
     {# Lorem ipsum #}
     <section>
