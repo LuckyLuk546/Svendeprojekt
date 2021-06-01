@@ -35,20 +35,30 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="nav navbar-nav">
-                    <li {% if active_page=='forside' %} class="nav-item-brand active" {% else %} class="nav-item-brand" {% endif %}>
+                    {# <li>
                         <a {% if active_page=='forside' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/">Forside</a>
-                    </li>
-                    <li {% if active_page=='biler' %} class="nav-item-brand active" {% else %} class="nav-item-brand" {% endif %}>
+                    </li> #}
+                    <li>
                         <a {% if active_page=='biler' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/biler">Biler</a>
                     </li>
-                    <li {% if active_page=='om_os' %} class="nav-item-brand active" {% else %} class="nav-item-brand" {% endif %}>
+                    <li>
                         <a {% if active_page=='om_os' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/om_os">Om os</a>
                     </li>
-                    <li {% if active_page=='kontakt_os' %} class="nav-item-brand active" {% else %} class="nav-item-brand" {% endif %}>
+                    <li>
                         <a {% if active_page=='kontakt_os' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/kontakt_os">Kontakt os</a>
                     </li>
             </div>
         </nav>
+
+        {% if active_page=='forside' %} 
+        <a href="/bil/{{ newest_car.car_ID[0] }}">
+            <div class="alert_bar">
+                <h5>
+                    Ny bil på lager: {{ newest_car.car_brand[0] }} {{ newest_car.car_model[0] }} {% if newest_car.car_sub_model[0] != -1 %} {{ newest_car.car_sub_model[0] }} {% endif %}
+                </h5>
+            </div>
+        </a>
+        {% endif %}
 
         <br>
         

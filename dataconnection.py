@@ -52,6 +52,10 @@ def con_alive(con):
 def get_info_table(): 
     return pd.read_sql(f'SELECT * FROM [dbo].info ORDER BY info_ID', get_con())
 
+# Get newest car
+def get_newest_car(): 
+    return pd.read_sql(f'SELECT TOP 1 * FROM [dbo].cars ORDER BY car_date_added DESC', get_con())
+
 # Get new cars
 def get_newest_cars(): 
-    return pd.read_sql(f'SELECT TOP 5 * FROM [dbo].cars ORDER BY car_date_added', get_con())
+    return pd.read_sql(f'SELECT TOP 5 * FROM [dbo].cars ORDER BY car_date_added DESC', get_con())

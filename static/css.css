@@ -16,7 +16,9 @@ html, body{
 }
 
 .navbar {
-    background-color: #00a0d6;
+    background-color: #1c1c1c;
+    height: 80px;
+    display: inline-block;
 }
 
 .navbar-brand {
@@ -29,14 +31,15 @@ html, body{
 
 #nav-link-brand{
     color: white;
-    text-decoration: underline #00a0d6;
+    text-decoration: underline #1c1c1c;
     text-decoration-thickness: 2px;
     text-underline-offset: 5px;
     transition: 0.3s;
+    font-size: 20px;
 }
 
 #nav-link-brand:hover{
-    text-decoration: underline #0d234c;
+    text-decoration: underline #969696;
     text-decoration-thickness: 2px;
     text-underline-offset: 5px;
 }
@@ -47,10 +50,11 @@ html, body{
     text-decoration-thickness: 2px;
     text-underline-offset: 5px;
     transition: 0.3s;
+    font-size: 20px;
 }
 
 #nav-link-brand-active:hover{
-    text-decoration: underline #0d234c;
+    text-decoration: underline #969696;
     text-decoration-thickness: 2px;
     text-underline-offset: 5px;
 }
@@ -94,10 +98,11 @@ html, body{
     color: #292929;
     font-size: large;
     transition: 0.3s;
+    text-decoration: underline #efefef;
 }
   
 .brand-footer-link:hover {
-    color: #005d91;
+    color: #969696;
     text-decoration: none;
 }
 
@@ -134,7 +139,7 @@ html, body{
     background-size: cover;
     background-position: center center;
     color: #fff;
-    height: 400px;
+    height: 800px;
     position: relative;
     text-align: center;
 }
@@ -148,4 +153,13 @@ html, body{
 
 .car_overview {
     margin-bottom: 40px;
+}
+
+.alert_bar {
+    height: 50px;
+    background-color: #dec573;
+    text-align: center;
+    padding-top: 12px;
+    text-decoration: underline #dec573;
+    color: black;
 }

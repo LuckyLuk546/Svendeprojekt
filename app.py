@@ -18,10 +18,13 @@ def index(template):
     weekday = date.today().weekday()
     info_table = dataconnection.get_info_table().fillna(-1)
 
+    newest_car = dataconnection.get_newest_car().fillna(-1)
+    newest_car[['car_price']] = newest_car[['car_price']].astype(int) # Fjerner .0
+
     table = dataconnection.get_newest_cars().fillna(-1)
     table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
 
-    return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, title='Svend-Leasing')
+    return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
 
 
 @app.route("/biler")
