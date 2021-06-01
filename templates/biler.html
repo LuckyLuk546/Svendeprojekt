@@ -8,8 +8,8 @@
 <br>
 
 <div class="row">
-{% for index,row in table.iterrows() %}
-    <div class="col-3 car_overview">
+    {% for index,row in table.iterrows() %}
+    <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-5 car_overview">
         <div class="card" style="width: 22rem;">
             <img class="card-img-top" src="static/images/range.jpg" alt="Card image cap">
             <div class="card-body">
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 
 {% endblock %}
