@@ -110,12 +110,32 @@ html, body{
     text-align: center;
 }
 
+.brand-float-left {
+    float: left;
+}
+
+.brand-float-right {
+    float: right;
+}
+
 .qr-code {
     max-width: 200px;
     margin: 10px;
 }
 
+.brand_car_preview {
+    background-color: #171717;
+    color: white;
+}
 
+.brand_car_preview_price {
+    background-color: #575757;
+    color: white;
+}
+
+.brand_text_price {
+    font-size: 28px;
+}
 
 .frontpage-header {
     color: #ffffff;
