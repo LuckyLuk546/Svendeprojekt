@@ -4,55 +4,79 @@
 
 {% block content %}
 
-<h2>Alle biler</h2>
+<h4 class="text-center">{{ table.car_brand[0] }}</h4>
+<h2 class="text-center">{{ table.car_model[0] }} {{ table.car_sub_model[0] }}</h2>
 <br>
 
 
 <div class="row">
     <div class="car_info_panel col-4">
         {% for index,row in table.iterrows() %}
-        <div class="container brand_car_preview">
-            <h5 class="brand-text-center"><b>{{ row.car_brand}}</b></h5>
-            <h5 class="brand-text-center">{{ row.car_model}} {{ row.car_sub_model}}</h5>
-            <p class="brand-float-left">Årgang:</p><p class="brand-float-right">{{ row.car_model_year }}</p>
-            <p class="brand-float-left">Kilometer:</p><p class="brand-float-right">{{ row.car_mileage }}</p>
-            <p class="brand-float-left">Leasingtype:</p><p class="brand-float-right">Privat</p>
+
+        <p class="car_info_text">Md. Ydelse : </p>
+        <p class="car_info_sub_text">{{ ((((((row.car_price)/100)*80)/12)|round(2))|string).split('.')[0] }}</p>
+
+        <p class="car_info_text">Engangsydelse : </p>
+        <p class="car_info_sub_text">{{ ((((((row.car_price)/100)*20))|round(2))|string).split('.')[0] }}</p>
+
+        <p class="car_info_text">Restværdi : </p>
+        <p class="car_info_sub_text">{{ (((((((row.car_price)))*2.1)-(((row.car_price)/100)*20))|round(2))|string).split('.')[0] }}</p>
+
+        <p class="car_info_text">Pris Ex. Afgift : </p>
+        <p class="car_info_sub_text">{{ ((((((row.car_price)))*2.1)|round(2))|string).split('.')[0] }}</p>
+
+        <p class="car_info_text">Årgang : </p>
+        <p class="car_info_sub_text">{{ row.car_model_year }}</p>
+
+        <p class="car_info_text">Kilometer : </p>
+        <p class="car_info_sub_text">{{ row.car_mileage }}</p>
+
+        <p class="car_info_text">Leasingperiode : </p>
+        <p class="car_info_sub_text">12 måneder</p>
+
+        <p class="car_info_text">Leasingtype : </p>
+        <p class="car_info_sub_text">Privat</p>
+
+        {# <div class="container brand_car_preview">
+            <h5 class=""><b>{{ row.car_brand}}</b></h5>
+            <h5 class="">{{ row.car_model}} {{ row.car_sub_model}}</h5>
+            <p class="">Årgang:</p><p class="">{{ row.car_model_year }}</p>
+            <p class="">Kilometer:</p><p class="">{{ row.car_mileage }}</p>
+            <p class="">Leasingtype:</p><p class="">Privat</p>
         </div>
         <div class="container brand_car_preview_price">
-            <p class="brand-text-center brand_text_price"><b>KR. {{ ((((((row.car_price)/100)*80)/12)|round(2))|string).split('.')[0] }}</b></p>
-            <p class="brand-text-center">Månedlig ydelse ex moms</p>
-        </div>
+            <p class=""><b>KR. {{ ((((((row.car_price)/100)*80)/12)|round(2))|string).split('.')[0] }}</b></p>
+            <p class="">Månedlig ydelse ex moms</p>
+        </div> #}
         {% endfor %}
     </div>
 
     <div id="carouselBasicExample" class="carousel slide carousel-fade col-8" data-mdb-ride="carousel">
-
-    <div class="carousel-indicators">
-        <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="1" aria-label="Slide 2"></button>
-        {# <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="2" aria-label="Slide 3"></button> #}
-    </div>
-
-    <div class="carousel-inner">
-
-        <div class="carousel-item active">
-        <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg" class="d-block w-100"/>
+ 
+        <div class="carousel-indicators">
+            <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide-to="3" aria-label="Slide 4"></button>
         </div>
 
-        <div class="carousel-item">
-        <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg" class="d-block w-100"/>
+        <div class="carousel-inner">
+            {% for index,row in car_images.iterrows() %}
+            <div class="carousel-item {% if '-1.jpg' in row.image_URL %} active {% endif %}">
+            <img src="{{ row.image_URL }}" class="d-block w-100"/>
+            </div>
+            {% endfor %}
+            
         </div>
-        
-    </div>
 
-    <button class="carousel-control-prev" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+        <button class="carousel-control-prev" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-mdb-target="#carouselBasicExample" data-mdb-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
 
     </div>
 </div>

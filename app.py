@@ -46,8 +46,9 @@ def bil(template, car_ID):
 
     table = dataconnection.get_specific_car(car_ID).fillna(-1)
     table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
+    car_images = dataconnection.get_specific_car_image(car_ID).fillna(-1)
 
-    return render_template("bil.html", info_table=info_table, table=table, title='asdf')
+    return render_template("bil.html", info_table=info_table, table=table, car_images=car_images, title='Bil')
 
 @app.route("/qrtest")
 @mobile_template('{mobile/}qrtest.html')

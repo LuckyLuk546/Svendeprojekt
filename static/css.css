@@ -187,4 +187,19 @@ html, body{
 
 .car_info_panel {
     background-color: black;
+    margin-right: -12px;
+}
+
+.car_info_text {
+    margin-left: 10px;
+    color: white;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: -5px;
+}
+
+.car_info_sub_text {
+    margin-left: 15px;
+    color: white;
+    font-size: 25px;
 }
