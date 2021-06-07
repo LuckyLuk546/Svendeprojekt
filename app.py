@@ -22,6 +22,21 @@ def index(template):
 
     return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, title='Forside')
 
+@app.route("/kontakt_os")
+@mobile_template('{mobile/}kontakt_os.html')
+def kontakt_os(template):
+    info_table = dataconnection.get_info_table().fillna(-1)
+    
+    return render_template("kontakt_os.html", info_table=info_table, title='Kontakt os')
+
+@app.route("/om_os")
+@mobile_template('{mobile/}om_os.html')
+def om_os(template):
+    info_table = dataconnection.get_info_table().fillna(-1)
+    
+    return render_template("om_os.html", info_table=info_table, title='Om os')
+
+
 @app.route("/qrtest")
 @mobile_template('{mobile/}qrtest.html')
 def qrtest(template):
