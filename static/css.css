@@ -115,7 +115,7 @@ html, body{
 }
 
 .brand-float-right {
-    float: right;
+    text-align: right;
 }
 
 .qr-code {
@@ -173,6 +173,7 @@ html, body{
 
 .car_overview {
     margin-bottom: 40px;
+    cursor: pointer;
 }
 
 .alert_bar {
@@ -182,4 +183,8 @@ html, body{
     padding-top: 12px;
     text-decoration: underline #dec573;
     color: black;
+}
+
+.car_info_panel {
+    background-color: black;
 }

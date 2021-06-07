@@ -38,6 +38,17 @@ def biler(template):
 
     return render_template("biler.html", info_table=info_table, table=table, title='Biler på lager')
 
+@app.route("/bil/<int:car_ID>")
+@mobile_template('{mobile/}bil.html')
+def bil(template, car_ID):
+
+    info_table = dataconnection.get_info_table().fillna(-1)
+
+    table = dataconnection.get_specific_car(car_ID).fillna(-1)
+    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
+
+    return render_template("bil.html", info_table=info_table, table=table, title='asdf')
+
 @app.route("/qrtest")
 @mobile_template('{mobile/}qrtest.html')
 def qrtest(template):

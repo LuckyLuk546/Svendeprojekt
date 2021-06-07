@@ -59,3 +59,7 @@ def get_newest_car():
 # Get new cars
 def get_newest_cars(): 
     return pd.read_sql(f'SELECT TOP 5 * FROM [dbo].cars ORDER BY car_date_added DESC', get_con())
+
+# Get specific car
+def get_specific_car(car_ID): 
+    return pd.read_sql(f'''SELECT * FROM [dbo].cars WHERE car_ID = '{car_ID}' ORDER BY car_date_added DESC''', get_con())
