@@ -190,16 +190,29 @@ html, body{
     margin-right: -12px;
 }
 
+.black_background {
+    background-color: black;
+}
+
 .car_info_text {
     margin-left: 10px;
     color: white;
-    font-size: 18px;
+    font-size: 17px;
     margin-top: 15px;
     margin-bottom: -5px;
 }
 
 .car_info_sub_text {
-    margin-left: 15px;
+    margin-left: 10px;
     color: white;
-    font-size: 25px;
+    font-size: 23px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.dkk_text {
+    color: grey;
+    margin-top: 10px;
+    display: inline-block;
+    vertical-align: top;
 }
