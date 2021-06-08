@@ -1,0 +1,25 @@
+{% extends "base.html" %} 
+{% set active_page = "om_os" %} 
+{% block title %}{{title}}{% endblock %} 
+
+
+{% block content %}
+
+
+<h2>Om os</h2>
+<br>
+<div class="col">
+    <h3>Hvad er flexleasing?</h3>
+
+    {# Lorem ipsum #}
+    <section>
+        <p>
+            {{ info_table.info_text[0] }}
+        </p>
+        <p>
+            {{ info_table.info_text[1] }}
+        </p>
+    </section>
+</div>
+
+{% endblock %}

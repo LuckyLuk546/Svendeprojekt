@@ -1,0 +1,66 @@
+{% extends "base.html" %} 
+{% set active_page = "kontakt_os" %} 
+{% block title %}{{title}}{% endblock %} 
+
+
+{% block content %}
+
+
+<h2>Kontakt os</h2><br>
+<div class="row justify-content-between">
+    <div class="col-5">
+        <p>
+            <a class="brand-footer-link brand-text-center" href="mailto:Support@svendleasing.com?subject=Support">
+                <p>Send os en mail!</p>
+            </a>
+        </p>
+        <br>
+        <!-- <div class="col-6"> -->
+            <p>Eller udfyld formen nedenfor, og bliv ringet op af en af vores medarbejdere.</p>
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Navn*</label>
+                    <input type="text" class="form-control" id="name" aria-describedby="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Telefonnummer*</label>
+                    <input type="phone" class="form-control" id="phone" aria-describedby="phoneHelp" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Besked</label>
+                    <textarea class="form-control" id="message" aria-label="message"></textarea>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="accept" required>
+                    <label class="form-check-label" for="accept">Jeg accepterer, at Svend-Leasing må kontakte mig, via ovenstående information.</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        <!-- </div> -->
+    </div>
+
+    <div class="col-5">
+        <h4>Besøg vores showroom</h4>
+        <p>Se vores åbningstider nedenfor</p>
+
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Mandag - fredag
+                <b>12:00 - 16:00</b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Lørdag
+                <b>10:00 - 14:00</b>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Søndag og helligdage
+                <b>Lukket</b>
+            </li>
+        </ul>
+        <br>
+        <p>Find os her!<br>
+        <a class="brand-footer-link brand-text-center" target="_blank" href="https://goo.gl/maps/QtzwuPXEEzBM3j2j6">Vejnavn 123, 5230 Odense M</a></p>
+    </div>
+</div>
+
+{% endblock %}
