@@ -40,18 +40,7 @@
 
         <p class="car_info_text">Leasingtype : </p>
         <p class="car_info_sub_text">Privat</p> #}
-
-        {# <div class="container brand_car_preview">
-            <h5 class=""><b>{{ row.car_brand}}</b></h5>
-            <h5 class="">{{ row.car_model}} {{ row.car_sub_model}}</h5>
-            <p class="">Årgang:</p><p class="">{{ row.car_model_year }}</p>
-            <p class="">Kilometer:</p><p class="">{{ row.car_mileage }}</p>
-            <p class="">Leasingtype:</p><p class="">Privat</p>
-        </div>
-        <div class="container brand_car_preview_price">
-            <p class=""><b>KR. {{ ((((((row.car_price)/100)*80)/12)|round(2))|string).split('.')[0] }}</b></p>
-            <p class="">Månedlig ydelse ex moms</p>
-        </div> #}
+        
         {% endfor %}
     </div>
 
@@ -83,6 +72,13 @@
         </button>
 
     </div>
+
+    <div>
+        {# <a href="https://chart.googleapis.com/chart?cht=qr&chl=svend.azurewebsites.net/bil/{{ table.car_ID[0] }}&chs=150x150&chld=L|0" download> #}
+        <img src="https://chart.googleapis.com/chart?cht=qr&chl=svend.azurewebsites.net/bil/{{ table.car_ID[0] }}&chs=150x150&chld=L|0" class="qr-code img-thumbnail img-responsive" title="qr kode {{ table.car_brand[0] }} {{ table.car_model[0] }}"/>
+        {# </a> #}
+    </div>
+
 </div>
 
 {% endblock %}
