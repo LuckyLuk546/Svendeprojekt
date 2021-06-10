@@ -216,3 +216,44 @@ html, body{
     display: inline-block;
     vertical-align: top;
 }
+
+.car_overview_image_div {
+    height: 250px;
+    width: 300px;
+    overflow: hidden;
+}
+
+.car_overview_image {
+    height: 280px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: -30px;
+    margin-right: 0px;
+}
+
+
+
+#qr-canvas {
+    margin: auto;
+    width: calc(100% - 20px);
+    max-width: 400px;
+  }
+  
+  #btn-scan-qr {
+    cursor: pointer;
+  }
+  
+  #btn-scan-qr img {
+    height: 10em;
+    padding: 15px;
+    margin: 15px;
+    background: white;
+  }
+  
+  #qr-result {
+    font-size: 1.2em;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 700px;
+    background-color: white;
+  }

@@ -30,7 +30,9 @@
     {% for index,row in table.iterrows() %}
     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-5 car_overview" onclick="window.location.href='/bil/{{ row.car_ID}}'">
         <div class="card">
-            <img src="https://i.ibb.co/4P0mXXm/4c-2.jpg" alt="{{ row.car_brand}}" style="width:100%">
+            <div class="container car_overview_image_div">
+                <img src="{{ row.car_thumbnail }}" alt="{{ row.car_brand}}" class="car_overview_image">
+            </div>
             <div class="container brand_car_preview">
                 <h5 class="brand-text-center"><b>{{ row.car_brand}}</b></h5>
                 <h5 class="brand-text-center">{{ row.car_model}} {{ row.car_sub_model}}</h5>

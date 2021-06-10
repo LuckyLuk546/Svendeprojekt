@@ -9,10 +9,10 @@
     <script src="jquery-3.5.1.min.js"></script>
 
     {# CSS #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css.css')}}?v=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css.css')}}?v=2">
 
     {# Javascript #}
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript.js')}}?v=1"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript.js')}}?v=2"></script>
 
     {# Bootstrap #}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
@@ -31,6 +31,10 @@
     {# MDB #}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.css" rel="stylesheet"/>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.js"></script>
+
+    {# QR Scanner #}
+    <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='qrCodeReader.js')}}?v=2"></script>
 
     {% block header %}{% endblock %}
 </head>
@@ -56,6 +60,9 @@
                     </li>
                     <li>
                         <a {% if active_page=='kontakt_os' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/kontakt_os">Kontakt os</a>
+                    </li>
+                    <li>
+                        <a {% if active_page=='qr_scanner' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/qrtest">Qr scanner</a>
                     </li>
             </div>
         </nav>

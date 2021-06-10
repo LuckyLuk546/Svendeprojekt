@@ -70,5 +70,7 @@ def om_os(template):
 def qrtest(template):
 
     info_table = dataconnection.get_info_table().fillna(-1)
+    newest_car = dataconnection.get_newest_car().fillna(-1)
+    newest_car[['car_price']] = newest_car[['car_price']].astype(int) # Fjerner .0
 
-    return render_template("qrtest.html", info_table=info_table, title='Qrtest')
+    return render_template("qrtest.html", info_table=info_table, newest_car=newest_car, title='Qrtest')
