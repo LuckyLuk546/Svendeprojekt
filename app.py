@@ -7,6 +7,17 @@ import dataconnection
 app = Flask(__name__)
 Mobility(app)
 
+@app.route("/login")
+@mobile_template('{mobile/}login.html')
+def login(template):
+
+    info_table = dataconnection.get_info_table().fillna(-1)
+
+    table = dataconnection.get_newest_cars().fillna(-1)
+    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
+
+    return render_template("login.html", info_table=info_table, table=table, title='Login')
+
 @app.route("/")
 @app.route("/index")
 @app.route("/forside")

@@ -10,6 +10,9 @@
 
     {# CSS #}
     <link rel="stylesheet" href="{{ url_for('static', filename='css.css')}}?v=2">
+    {% if active_page=='login' %} 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css_login.css')}}?v=2">
+    {% endif %}
 
     {# Javascript #}
     <script type="text/javascript" src="{{ url_for('static', filename='javascript.js')}}?v=2"></script>
