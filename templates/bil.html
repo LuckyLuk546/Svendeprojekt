@@ -54,11 +54,28 @@
         </div>
 
         <div class="carousel-inner">
-            {% for index,row in car_images.iterrows() %}
-            <div class="carousel-item {% if '-1.jpg' in row.image_URL %} active {% endif %}">
-            <img src="{{ row.image_URL }}" class="d-block w-100"/>
-            </div>
-            {% endfor %}
+            {% if "asdf" == "asdf2" %}
+                {% for index,row in car_images.iterrows() %}
+                <div class="carousel-item {% if '-1.jpg' in row.image_URL %} active {% endif %}">
+                    <img src="{{ row.image_URL }}" class="d-block w-100"/>
+                </div>
+                {% endfor %}
+            {% else %}
+                {% for index,row in table.iterrows() %}
+                <div class="carousel-item active">
+                    <img src="{{ row.car_thumbnail }}" class="d-block w-100"/>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ row.car_thumbnail }}" class="d-block w-100"/>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ row.car_thumbnail }}" class="d-block w-100"/>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ row.car_thumbnail }}" class="d-block w-100"/>
+                </div>
+                {% endfor %}
+            {% endif %}
             
         </div>
 

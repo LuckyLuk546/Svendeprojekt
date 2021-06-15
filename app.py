@@ -59,7 +59,7 @@ class cars(db.Model):
         self.car_price = car_price
         self.car_thumbnail = car_thumbnail
 
-class AddRecord(FlaskForm):
+class AddCar(FlaskForm):
     # id used only by update/edit
     car_ID = HiddenField()
     car_brand = StringField('Car brand', [ InputRequired(),
@@ -93,9 +93,9 @@ class AddRecord(FlaskForm):
     submit = SubmitField('Add car')
 
 # add a new sock to the database
-@app.route('/add_record', methods=['GET', 'POST'])
-def add_record():
-    form1 = AddRecord()
+@app.route('/add_car', methods=['GET', 'POST'])
+def add_car():
+    form1 = AddCar()
     if form1.validate_on_submit():
         car_brand = request.form['car_brand']
         car_model = request.form['car_model']
@@ -107,13 +107,13 @@ def add_record():
         car_price = request.form['car_price']
         car_thumbnail = request.form['car_thumbnail']
         # the data to be inserted into Sock model - the table, socks
-        record = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price, car_thumbnail)
-        # Flask-SQLAlchemy magic adds record to database
-        db.session.add(record)
+        car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price, car_thumbnail)
+        # Flask-SQLAlchemy magic adds car to database
+        db.session.add(car)
         db.session.commit()
         # create a message to send to the template
         message = f"{car_brand} {car_model} {car_sub_model} er tilføjet til databasen."
-        return render_template('add_record.html', message=message)
+        return render_template('add_car.html', message=message)
     else:
         # show validaton errors
         for field, errors in form1.errors.items():
@@ -122,7 +122,7 @@ def add_record():
                     getattr(form1, field).label.text,
                     error
                 ), 'error')
-        return render_template('add_record.html', form1=form1)
+        return render_template('add_car.html', form1=form1)
 
 
 @app.route('/testconnection')
