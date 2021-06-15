@@ -9,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from sqlalchemy.sql import text
 from flask_wtf import FlaskForm
-from datetime import date
+from datetime import date, datetime
 import wtforms
 import pyodbc
 
@@ -45,10 +45,14 @@ class cars(db.Model):
     car_horsepower = db.Column(db.Integer)
     car_sold = db.Column(db.String)
     car_date_added = db.Column(db.DateTime)
+    car_date_added = db.Column(db.DateTime)
     car_price = db.Column(db.Integer)
     car_thumbnail = db.Column(db.String)
+    car_image_2 = db.Column(db.String)
+    car_image_3 = db.Column(db.String)
+    car_image_4 = db.Column(db.String)
 
-    def __init__(self, car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price, car_thumbnail):
+    def __init__(self, car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_date_added, car_price, car_thumbnail, car_image_2, car_image_3, car_image_4):
         self.car_brand = car_brand
         self.car_model = car_model
         self.car_sub_model = car_sub_model
@@ -56,8 +60,12 @@ class cars(db.Model):
         self.car_model_year = car_model_year
         self.car_horsepower = car_horsepower
         self.car_sold = car_sold
+        self.car_date_added = car_date_added
         self.car_price = car_price
         self.car_thumbnail = car_thumbnail
+        self.car_image_2 = car_image_2
+        self.car_image_3 = car_image_3
+        self.car_image_4 = car_image_4
 
 class AddCar(FlaskForm):
     # id used only by update/edit
@@ -69,10 +77,7 @@ class AddCar(FlaskForm):
     car_model = StringField('Car model', [ InputRequired(),
         Length(min=1, max=25, message="Invalid model name length")
         ])
-    car_sub_model = StringField('Car sub model', [ InputRequired(),
-        Regexp(r'^[A-Za-z\s\-\'\/]+$', message="Invalid sub model name"),
-        Length(min=1, max=25, message="Invalid sub model name length")
-        ])
+    car_sub_model = StringField('Car sub model')
     car_mileage = IntegerField('Car mileage', [ InputRequired(),
         NumberRange(min=1, max=999999, message="Invalid mileage")
         ])
@@ -88,13 +93,23 @@ class AddCar(FlaskForm):
         NumberRange(min=1.00, max=9999999, message="Invalid price")
         ])
     car_thumbnail = StringField('Car thumbnail', [ InputRequired(),
-        Length(min=1, max=250, message="Invalid thumbnail length")
+        Length(min=1, max=250, message="Invalid url length")
+        ])
+    car_image_2 = StringField('Car image 2', [ InputRequired(),
+        Length(min=1, max=250, message="Invalid url length")
+        ])
+    car_image_3 = StringField('Car image 3', [ InputRequired(),
+        Length(min=1, max=250, message="Invalid url length")
+        ])
+    car_image_4 = StringField('Car image 4', [ InputRequired(),
+        Length(min=1, max=250, message="Invalid url length")
         ])
     submit = SubmitField('Add car')
 
 # add a new sock to the database
 @app.route('/add_car', methods=['GET', 'POST'])
 def add_car():
+    now = datetime.now()
     form1 = AddCar()
     if form1.validate_on_submit():
         car_brand = request.form['car_brand']
@@ -104,10 +119,14 @@ def add_car():
         car_model_year = request.form['car_model_year']
         car_horsepower = request.form['car_horsepower']
         car_sold = request.form['car_sold']
+        car_date_added = now
         car_price = request.form['car_price']
         car_thumbnail = request.form['car_thumbnail']
+        car_image_2 = request.form['car_image_2']
+        car_image_3 = request.form['car_image_3']
+        car_image_4 = request.form['car_image_4']
         # the data to be inserted into Sock model - the table, socks
-        car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price, car_thumbnail)
+        car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_date_added, car_price, car_thumbnail, car_image_2, car_image_3, car_image_4)
         # Flask-SQLAlchemy magic adds car to database
         db.session.add(car)
         db.session.commit()
