@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% import "bootstrap/wtf.html" as wtf %}
+{% import "wtf.html" as wtf %}
 {% set active_page = "form" %} 
 {% block title %}{{title}}{% endblock %} 
 
@@ -34,49 +34,8 @@
 			<!-- end of flash -->
 
 			<!-- the form -->
-            <div class="mb-3">
-                <label class="form-label">car_brand</label><br>
-		        {{ form1.car_brand }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_model</label><br>
-		        {{ form1.car_model }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_sub_model</label><br>
-		        {{ form1.car_sub_model }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_mileage</label><br>
-		        {{ form1.car_mileage }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_model_year</label><br>
-		        {{ form1.car_model_year }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_horsepower</label><br>
-		        {{ form1.car_horsepower }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_sold</label><br>
-		        {{ form1.car_sold }}
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">car_price</label><br>
-		        {{ form1.car_price }}
-            </div>
-
-            <div class="mb-3">
-		        {{ form1.submit }}
-            </div>
+            
+		    {{ wtf.quick_form(form1) }}
 
 		{% endif %}
 

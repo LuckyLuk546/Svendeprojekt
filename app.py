@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for, request, flash
 from datetime import date, datetime, timedelta
 from flask_mobility import Mobility
 
-from wtforms import SubmitField, SelectField, RadioField, HiddenField, StringField, IntegerField, FloatField
+from wtforms import SubmitField, SelectField, RadioField, HiddenField, StringField, IntegerField, FloatField, DateTimeField
 from wtforms.validators import InputRequired, Length, Regexp, NumberRange
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
@@ -30,7 +30,7 @@ password = 'Idiot546'
 driver= '{ODBC Driver 17 for SQL Server}'   
 
 db_name = 'svenddata.db'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://' + username + ':' + password + '@' + server + database
+app.config["SQLALCHEMY_DATABASE_URI"] = "mssql+pyodbc://Lukas546:Idiot546@svenddata.database.windows.net/svenddata?driver=SQL+Server"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
@@ -44,10 +44,11 @@ class cars(db.Model):
     car_model_year = db.Column(db.Integer)
     car_horsepower = db.Column(db.Integer)
     car_sold = db.Column(db.String)
+    car_date_added = db.Column(db.DateTime)
     car_price = db.Column(db.Integer)
+    car_thumbnail = db.Column(db.String)
 
-    def __init__(self, car_ID, car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price):
-        self.car_ID = car_ID
+    def __init__(self, car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price, car_thumbnail):
         self.car_brand = car_brand
         self.car_model = car_model
         self.car_sub_model = car_sub_model
@@ -56,6 +57,7 @@ class cars(db.Model):
         self.car_horsepower = car_horsepower
         self.car_sold = car_sold
         self.car_price = car_price
+        self.car_thumbnail = car_thumbnail
 
 class AddRecord(FlaskForm):
     # id used only by update/edit
@@ -65,7 +67,6 @@ class AddRecord(FlaskForm):
         Length(min=1, max=25, message="Invalid brand name length")
         ])
     car_model = StringField('Car model', [ InputRequired(),
-        Regexp(r'^[A-Za-z\s\-\']+$', message="Invalid mode name"),
         Length(min=1, max=25, message="Invalid model name length")
         ])
     car_sub_model = StringField('Car sub model', [ InputRequired(),
@@ -75,16 +76,19 @@ class AddRecord(FlaskForm):
     car_mileage = IntegerField('Car mileage', [ InputRequired(),
         NumberRange(min=1, max=999999, message="Invalid mileage")
         ])
-    car_model_year = FloatField('Car model year', [ InputRequired(),
+    car_model_year = IntegerField('Car model year', [ InputRequired(),
         NumberRange(min=1.00, max=2022, message="Invalid model year")
         ])
-    car_horsepower = FloatField('Retail price per pair', [ InputRequired(),
+    car_horsepower = IntegerField('Car horsepower', [ InputRequired(),
         NumberRange(min=1.00, max=9999, message="Invalid horsepower")
         ])
-    car_sold = SelectField('Solgt eller ej', [ InputRequired()],
+    car_sold = SelectField('Sold', [ InputRequired()],
         choices=[ ('', ''), ('false', 'False'), ('true', 'True')])
-    car_price = FloatField('Retail price per pair', [ InputRequired(),
+    car_price = IntegerField('Total price', [ InputRequired(),
         NumberRange(min=1.00, max=9999999, message="Invalid price")
+        ])
+    car_thumbnail = StringField('Car thumbnail', [ InputRequired(),
+        Length(min=1, max=250, message="Invalid thumbnail length")
         ])
     submit = SubmitField('Add car')
 
@@ -101,8 +105,9 @@ def add_record():
         car_horsepower = request.form['car_horsepower']
         car_sold = request.form['car_sold']
         car_price = request.form['car_price']
+        car_thumbnail = request.form['car_thumbnail']
         # the data to be inserted into Sock model - the table, socks
-        record = Sock(car_brand, car_model, car_sub_model, car_mileage, car_model_year, updated, car_horsepower, car_sold, car_price)
+        record = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_price, car_thumbnail)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
@@ -111,7 +116,6 @@ def add_record():
         return render_template('add_record.html', message=message)
     else:
         # show validaton errors
-        # see https://pythonprogramming.net/flash-flask-tutorial/
         for field, errors in form1.errors.items():
             for error in errors:
                 flash("Error in {}: {}".format(
