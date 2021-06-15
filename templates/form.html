@@ -1,0 +1,61 @@
+{% extends "base.html" %} 
+{% set active_page = "form" %} 
+{% block title %}{{title}}{% endblock %} 
+
+
+{% block content %}
+
+
+<h2>Form test</h2>
+<br>
+<div class="row">
+    <div class="col-4">
+       
+        <form method="POST">
+           
+            <div class="mb-3">
+                <label for="carBrand" class="form-label">Mærke</label>
+                <input type="text" class="form-control" id="carBrand">
+            </div>
+
+            <div class="mb-3">
+                <label for="model" class="form-label">Model</label>
+                <input type="text" class="form-control" id="model">
+            </div>
+
+            <div class="mb-3">
+                <label for="monthlyPayment" class="form-label">Md. Ydelse</label>
+                <input type="number" class="form-control" id="monthlyPayment">
+            </div>
+
+            <div class="mb-3">
+                <label for="lumpSumPayment" class="form-label">Engangsydelse</label>
+                <input type="number" class="form-control" id="lumpSumPayment">
+            </div>
+
+            <div class="mb-3">
+                <label for="totalPayment" class="form-label">Totalomkostning</label>
+                <input type="number" class="form-control" id="totalPayment">
+            </div>
+
+            <div class="mb-3">
+                <label for="residualValue" class="form-label">Restværdi</label>
+                <input type="number" class="form-control" id="residualValue">
+            </div>
+
+            <div class="mb-3">
+                <label for="year" class="form-label">Årgang</label>
+                <input type="number" class="form-control" id="year">
+            </div>
+
+            <div class="mb-3">
+                <label for="km" class="form-label">Kilometer</label>
+                <input type="number" class="form-control" id="km">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

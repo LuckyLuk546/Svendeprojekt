@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 from flask_mobility import Mobility
 from flask_mobility.decorators import mobile_template
 import dataconnection
+import wtforms
 
 app = Flask(__name__)
 Mobility(app)
@@ -85,3 +86,11 @@ def qrtest(template):
     newest_car[['car_price']] = newest_car[['car_price']].astype(int) # Fjerner .0
 
     return render_template("qrtest.html", info_table=info_table, newest_car=newest_car, title='Qrtest')
+
+
+@app.route("/form")
+@mobile_template('{mobile/}form.html')
+def form(template):
+    info_table = dataconnection.get_info_table().fillna(-1)
+    
+    return render_template("form.html", info_table=info_table, title='Form')
