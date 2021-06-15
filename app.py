@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 from flask_mobility import Mobility
 from flask_mobility.decorators import mobile_template
 import dataconnection
+import wtforms
 
 app = Flask(__name__)
 Mobility(app)
@@ -45,4 +46,16 @@ def qrtest(template):
     weekday = date.today().weekday()
     info_table = dataconnection.get_info_table().fillna(-1)
 
+<<<<<<< Updated upstream
     return render_template("qrtest.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, title='Qrtest')
+=======
+    return render_template("qrtest.html", info_table=info_table, newest_car=newest_car, title='Qrtest')
+
+
+@app.route("/form")
+@mobile_template('{mobile/}form.html')
+def form(template):
+    info_table = dataconnection.get_info_table().fillna(-1)
+    
+    return render_template("form.html", info_table=info_table, title='Form')
+>>>>>>> Stashed changes
