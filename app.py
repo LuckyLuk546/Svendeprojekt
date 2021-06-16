@@ -104,8 +104,13 @@ class AddCar(FlaskForm):
     car_image_4 = StringField('Billede 4 (imgbb url)', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    submit = SubmitField('Tilføj bil')
+    submit = SubmitField('Bekræft')
 
+class DeleteCar(FlaskForm):
+    car_ID = HiddenField()
+    purpose = HiddenField()
+    submit = SubmitField('Delete This Car')
+    
 # add a new car to the database
 @app.route('/add_car', methods=['GET', 'POST'])
 def add_car():
@@ -148,6 +153,71 @@ def add_car():
 def view_car():
     cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
     return render_template('view_car.html', cars_view=cars_view)
+
+# edit or delete - come here from form in /select_record
+@app.route('/edit_or_delete', methods=['POST'])
+def edit_or_delete():
+    id = request.form['id']
+    choice = request.form['choice']
+    car = cars.query.filter(cars.car_ID == id).first()
+    # two forms in this template
+    form1 = AddCar()
+    form2 = DeleteCar()
+    return render_template('edit_or_delete.html', car=car, form1=form1, form2=form2, choice=choice)
+
+# result of delete - this function deletes the record
+@app.route('/delete_result', methods=['POST'])
+def delete_result():
+    id = request.form['car_ID']
+    purpose = request.form['purpose']
+    car = cars.query.filter(cars.car_ID == id).first()
+    if purpose == 'delete':
+        db.session.delete(car)
+        db.session.commit()
+        message = f"Bilen {car.car_brand} {car.car_model} er blevet slettet fra databasen"
+        return render_template('result.html', message=message)
+    else:
+        # this calls an error handler
+        abort(405)
+
+# result of edit - this function updates the record
+@app.route('/edit_result', methods=['POST'])
+def edit_result():
+    id = request.form['car_ID']
+    # call up the record from the database
+    car = cars.query.filter(cars.car_ID == id).first()
+    # update all values
+    car.car_brand = request.form['car_brand']
+    car.car_model = request.form['car_model']
+    car.car_sub_model = request.form['car_sub_model']
+    car.car_mileage = request.form['car_mileage']
+    car.car_model_year = request.form['car_model_year']
+    car.car_horsepower = request.form['car_horsepower']
+    car.car_sold = request.form['car_sold']
+    car.car_price = request.form['car_price']
+    car.car_thumbnail = request.form['car_thumbnail']
+    car.car_image_2 = request.form['car_image_2']
+    car.car_image_3 = request.form['car_image_3']
+    car.car_image_4 = request.form['car_image_4']
+
+    form1 = AddCar()
+    if form1.validate_on_submit():
+        # update database record
+        db.session.commit()
+        # create a message to send to the template
+        message = f"Bil med id: {car.car_ID} er blevet opdateret."
+        return render_template('result.html', message=message)
+    else:
+        # show validaton errors
+        car.car_ID = id
+        # see https://pythonprogramming.net/flash-flask-tutorial/
+        for field, errors in form1.errors.items():
+            for error in errors:
+                flash("Error in {}: {}".format(
+                    getattr(form1, field).label.text,
+                    error
+                ), 'error')
+        return render_template('edit_or_delete.html', form1=form1, car=car, choice='edit')
 
 # view cars from the database
 @app.route('/view_car_first', methods=['GET', 'POST'])
@@ -230,9 +300,8 @@ def bil(template, car_ID):
 
     table = dataconnection.get_specific_car(car_ID).fillna(-1)
     table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
-    car_images = dataconnection.get_specific_car_image(car_ID).fillna(-1)
 
-    return render_template("bil.html", info_table=info_table, table=table, car_images=car_images, title='Bil')
+    return render_template("bil.html", info_table=info_table, table=table, title='Bil')
 
 
 @app.route("/kontakt_os")

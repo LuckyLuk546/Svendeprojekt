@@ -63,7 +63,3 @@ def get_newest_cars():
 # Get specific car
 def get_specific_car(car_ID): 
     return pd.read_sql(f'''SELECT * FROM [dbo].cars WHERE car_ID = '{car_ID}' ORDER BY car_date_added DESC''', get_con())
-
-# Get specific car image
-def get_specific_car_image(car_ID): 
-    return pd.read_sql(f'''SELECT * FROM [dbo].images WHERE car_ID = '{car_ID}' ORDER BY image_ID ASC''', get_con())
