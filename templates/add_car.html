@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<h1 class="pt-5 pb-2">Add a new car</h1>
+<h1 class="pt-5 pb-2">Tilføj ny bil</h1>
 
 		{% if message %}
 
@@ -14,9 +14,9 @@
 			<p class="lead"><strong>{{ message }}</strong></p>
 
 			<!-- links -->
-			<p><a href="{{ url_for('add_car') }}">Submit another car.</a></p>
+			<p><a href="{{ url_for('add_car') }}">Tilføj endnu en bil.</a></p>
 
-			<p><a href="{{ url_for('index') }}">Return to the frontpage.</a></p>
+			<p><a href="{{ url_for('biler') }}">Gå til biler</a></p>
 
 		{% else %}
 

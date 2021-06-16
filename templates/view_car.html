@@ -1,0 +1,42 @@
+{% extends "base.html" %} 
+{% import "wtf.html" as wtf %}
+{% set active_page = "form" %} 
+{% block title %}{{title}}{% endblock %} 
+
+
+{% block content %}
+
+<h1 class="pt-5 pb-2">List of Socks</h1>
+
+      {# <p class="lead alert alert-warning">This is a list of all the cars</p> #}
+
+		<table class="table">
+			<tr>
+				<th>car_brand</th>
+				<th>car_model</th>
+				<th>car_sub_model</th>
+				<th>car_mileage</th>
+				<th>car_model_year</th>
+				<th>car_horsepower</th>
+				<th>car_sold</th>
+				<th>car_price</th>
+				<th>car_thumbnail</th>
+			</tr>
+
+			<!-- here is a for-loop to give us all the socks -->
+			{% for car in cars_view %}
+			<tr>
+				<td>{{ car.car_brand }}</td>
+				<td>{{ car.car_model }}</td>
+				<td>{{ car.car_sub_model }}</td>
+				<td>{{ car.car_mileage }}</td>
+				<td>{{ car.car_model_year }}</td>
+				<td>{{ car.car_horsepower }}</td>
+				<td>{{ car.car_sold }}</td>
+				<td>{{ car.car_price }}</td>
+				<td>{{ car.car_thumbnail }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+{% endblock %}

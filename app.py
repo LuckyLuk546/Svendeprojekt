@@ -70,43 +70,43 @@ class cars(db.Model):
 class AddCar(FlaskForm):
     # id used only by update/edit
     car_ID = HiddenField()
-    car_brand = StringField('Car brand', [ InputRequired(),
+    car_brand = StringField('Mærke', [ InputRequired(),
         Regexp(r'^[A-Za-z\s\-\']+$', message="Invalid brand name"),
         Length(min=1, max=25, message="Invalid brand name length")
         ])
-    car_model = StringField('Car model', [ InputRequired(),
+    car_model = StringField('Model', [ InputRequired(),
         Length(min=1, max=25, message="Invalid model name length")
         ])
-    car_sub_model = StringField('Car sub model')
+    car_sub_model = StringField('Under model')
     car_mileage = IntegerField('Car mileage', [ InputRequired(),
         NumberRange(min=1, max=999999, message="Invalid mileage")
         ])
-    car_model_year = IntegerField('Car model year', [ InputRequired(),
+    car_model_year = IntegerField('Model år', [ InputRequired(),
         NumberRange(min=1.00, max=2022, message="Invalid model year")
         ])
-    car_horsepower = IntegerField('Car horsepower', [ InputRequired(),
+    car_horsepower = IntegerField('Hestekræfter', [ InputRequired(),
         NumberRange(min=1.00, max=9999, message="Invalid horsepower")
         ])
-    car_sold = SelectField('Sold', [ InputRequired()],
+    car_sold = SelectField('Solgt', [ InputRequired()],
         choices=[ ('', ''), ('false', 'False'), ('true', 'True')])
-    car_price = IntegerField('Total price', [ InputRequired(),
+    car_price = IntegerField('Totalomkostning', [ InputRequired(),
         NumberRange(min=1.00, max=9999999, message="Invalid price")
         ])
-    car_thumbnail = StringField('Car thumbnail', [ InputRequired(),
+    car_thumbnail = StringField('Billede 1 (imgbb url)', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    car_image_2 = StringField('Car image 2', [ InputRequired(),
+    car_image_2 = StringField('Billede 2 (imgbb url)', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    car_image_3 = StringField('Car image 3', [ InputRequired(),
+    car_image_3 = StringField('Billede 3 (imgbb url)', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    car_image_4 = StringField('Car image 4', [ InputRequired(),
+    car_image_4 = StringField('Billede 4 (imgbb url)', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    submit = SubmitField('Add car')
+    submit = SubmitField('Tilføj bil')
 
-# add a new sock to the database
+# add a new car to the database
 @app.route('/add_car', methods=['GET', 'POST'])
 def add_car():
     now = datetime.now()
@@ -125,7 +125,7 @@ def add_car():
         car_image_2 = request.form['car_image_2']
         car_image_3 = request.form['car_image_3']
         car_image_4 = request.form['car_image_4']
-        # the data to be inserted into Sock model - the table, socks
+        # the data to be inserted into the cars table
         car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_date_added, car_price, car_thumbnail, car_image_2, car_image_3, car_image_4)
         # Flask-SQLAlchemy magic adds car to database
         db.session.add(car)
@@ -141,7 +141,29 @@ def add_car():
                     getattr(form1, field).label.text,
                     error
                 ), 'error')
-        return render_template('add_car.html', form1=form1)
+        return render_template('add_car.html', form1=form1, title='Tilføj ny bil')
+
+# view cars from the database
+@app.route('/view_car', methods=['GET', 'POST'])
+def view_car():
+    cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
+    return render_template('view_car.html', cars_view=cars_view)
+
+# view cars from the database
+@app.route('/view_car_first', methods=['GET', 'POST'])
+def view_car_first():
+    try:
+        cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
+        car_text = '<ul>'
+        for car in cars_view:
+            car_text += '<li>' + car.car_brand + ', ' + car.car_model + '</li>'
+        car_text += '</ul>'
+        return car_text
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>The error:<br>" + str(e) + "</p>"
+        hed = '<h1>Something is broken.</h1>'
+        return hed + error_text
 
 
 @app.route('/testconnection')
