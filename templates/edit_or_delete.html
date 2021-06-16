@@ -17,92 +17,35 @@
 	  		Rediger en bil
 	  	{% endif %}
 	  </h1>
-	  <!-- ----- THIS TEMPLATE HAS TWO FORMS ----- -->
-	  <!-- but only one will be visible, depending on how the template
-  		   was opened -->
-
-	  <!-- ----- start delete sock content ----- -->
 
 	  {% if choice == 'delete' %}
 
 	      <p class="lead alert alert-danger">Er du sikker på du vil slette denne bil?</p>
 
-		  <!-- links -->
-		  {# <p><a href="{{ url_for('view_car') }}">Rediger endnu en bil.</a></p>
-
-		  <p><a href="{{ url_for('biler') }}">Gå til biler</a></p> #}
-
-		<!-- table showing the selected sock -->
 		<table>
-			{# <tr>
-				<th>car_brand</th>
-				<th>car_model</th>
-				<th>car_sub_model</th>
-				<th>car_mileage</th>
-				<th>car_model_year</th>
-				<th>car_horsepower</th>
-				<th>car_sold</th>
-				<th>car_price</th>
-				<th>car_thumbnail</th>
-			</tr> #}
-			<tr>
-				<td>{{ car.car_brand }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_model }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_sub_model }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_mileage }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_model_year }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_horsepower }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_sold }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_price }}</td>
-			</tr>
-			<tr>
-				<td>{{ car.car_thumbnail }}</td>
-			</tr>
+			<tr><td>{{ car.car_brand }}</td></tr>
+			<tr><td>{{ car.car_model }}</td></tr>
+			<tr><td>{{ car.car_sub_model }}</td></tr>
+			<tr><td>{{ car.car_mileage }}</td></tr>
+			<tr><td>{{ car.car_model_year }}</td></tr>
+			<tr><td>{{ car.car_horsepower }}</td></tr>
+			<tr><td>{{ car.car_sold }}</td></tr>
+			<tr><td>{{ car.car_price }}</td></tr>
+			<tr><td>{{ car.car_thumbnail }}</td></tr>
 		</table>
 
-
-		<!-- start form for deleting record - not quickform but still WTForms -->
   		<form action="{{ url_for('delete_result') }}" method="POST" id="delete">
 			{{ form2.csrf_token }}
 			{{ form2.car_ID(value=car.car_ID) }}
 			{{ form2.purpose(value='delete') }}
 			{{ form2.submit(class="btn btn-danger space-below-btn") }}
 		</form>
-		<!-- end form -->
 
-
-		<!-- ----- end delete sock content ----- -->
 		{% else %}
-
-		<!-- ----- start edit sock content ----- -->
 
 		<p class="lead alert alert-success">Rediger den valgte bil</p>
 
-		<!-- links -->
-		{# <p><a href="{{ url_for('view_car') }}">Rediger endnu anden bil.</a></p>
-
-		<p><a href="{{ url_for('biler') }}">Gå til biler</a></p> #}
-
-		<!-- show flash - based on WTForms validators
-			 see https://pythonprogramming.net/flash-flask-tutorial/
-			 get_flashed_messages() exists here because of flash()
-			 in the route function
-			 -->
-			 {% with errors = get_flashed_messages() %}
+			{% with errors = get_flashed_messages() %}
 				 {% if errors %}
 					 {% for err in errors %}
 					 <div class="alert alert-danger alert-dismissible" role="alert">
@@ -112,10 +55,7 @@
 					 {% endfor %}
 				 {% endif %}
 			 {% endwith %}
-		<!-- end of flash -->
 
-		<!-- start form for editing record
-			 correct use of WTF Bootstrap styles -->
 		<form method="post" action="{{ url_for('edit_result') }}" id="update">
 			{{ form1.csrf_token }}
 			{{ form1.car_ID(value=car.car_ID) }}
@@ -136,8 +76,6 @@
 		</form>
 
 		<script>
-		// this JavaScript fixes the style choice in the select element
-		// without this, the current value is not shown in the menu
 		if ( document.querySelector('select') ) {
 			document.querySelector('select').value = "{{ car.car_sold }}";
 		}

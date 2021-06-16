@@ -111,7 +111,7 @@ class DeleteCar(FlaskForm):
     purpose = HiddenField()
     submit = SubmitField('Delete This Car')
     
-# add a new car to the database
+
 @app.route('/add_car', methods=['GET', 'POST'])
 def add_car():
     now = datetime.now()
@@ -130,16 +130,12 @@ def add_car():
         car_image_2 = request.form['car_image_2']
         car_image_3 = request.form['car_image_3']
         car_image_4 = request.form['car_image_4']
-        # the data to be inserted into the cars table
         car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_date_added, car_price, car_thumbnail, car_image_2, car_image_3, car_image_4)
-        # Flask-SQLAlchemy magic adds car to database
         db.session.add(car)
         db.session.commit()
-        # create a message to send to the template
         message = f"{car_brand} {car_model} {car_sub_model} er tilføjet til databasen."
         return render_template('add_car.html', message=message)
     else:
-        # show validaton errors
         for field, errors in form1.errors.items():
             for error in errors:
                 flash("Error in {}: {}".format(
@@ -148,24 +144,23 @@ def add_car():
                 ), 'error')
         return render_template('add_car.html', form1=form1, title='Tilføj ny bil')
 
-# view cars from the database
+
 @app.route('/view_car', methods=['GET', 'POST'])
 def view_car():
     cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
     return render_template('view_car.html', cars_view=cars_view)
 
-# edit or delete - come here from form in /select_record
+
 @app.route('/edit_or_delete', methods=['POST'])
 def edit_or_delete():
     id = request.form['id']
     choice = request.form['choice']
     car = cars.query.filter(cars.car_ID == id).first()
-    # two forms in this template
     form1 = AddCar()
     form2 = DeleteCar()
     return render_template('edit_or_delete.html', car=car, form1=form1, form2=form2, choice=choice)
 
-# result of delete - this function deletes the record
+
 @app.route('/delete_result', methods=['POST'])
 def delete_result():
     id = request.form['car_ID']
@@ -177,16 +172,13 @@ def delete_result():
         message = f"Bilen {car.car_brand} {car.car_model} er blevet slettet fra databasen"
         return render_template('result.html', message=message)
     else:
-        # this calls an error handler
         abort(405)
 
-# result of edit - this function updates the record
+
 @app.route('/edit_result', methods=['POST'])
 def edit_result():
     id = request.form['car_ID']
-    # call up the record from the database
     car = cars.query.filter(cars.car_ID == id).first()
-    # update all values
     car.car_brand = request.form['car_brand']
     car.car_model = request.form['car_model']
     car.car_sub_model = request.form['car_sub_model']
@@ -199,18 +191,13 @@ def edit_result():
     car.car_image_2 = request.form['car_image_2']
     car.car_image_3 = request.form['car_image_3']
     car.car_image_4 = request.form['car_image_4']
-
     form1 = AddCar()
     if form1.validate_on_submit():
-        # update database record
         db.session.commit()
-        # create a message to send to the template
         message = f"Bil med id: {car.car_ID} er blevet opdateret."
         return render_template('result.html', message=message)
     else:
-        # show validaton errors
         car.car_ID = id
-        # see https://pythonprogramming.net/flash-flask-tutorial/
         for field, errors in form1.errors.items():
             for error in errors:
                 flash("Error in {}: {}".format(
@@ -219,7 +206,7 @@ def edit_result():
                 ), 'error')
         return render_template('edit_or_delete.html', form1=form1, car=car, choice='edit')
 
-# view cars from the database
+
 @app.route('/view_car_first', methods=['GET', 'POST'])
 def view_car_first():
     try:
@@ -230,7 +217,6 @@ def view_car_first():
         car_text += '</ul>'
         return car_text
     except Exception as e:
-        # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
@@ -242,7 +228,6 @@ def testdb():
         db.session.query(text('1')).from_statement(text('SELECT 1')).all()
         return '<h1>It works.</h1>'
     except Exception as e:
-        # e holds description of the error
         error_text = "<p>The error:<br>" + str(e) + "</p>"
         hed = '<h1>Something is broken.</h1>'
         return hed + error_text
@@ -251,12 +236,9 @@ def testdb():
 @app.route("/login")
 @mobile_template('{mobile/}login.html')
 def login(template):
-
     info_table = dataconnection.get_info_table().fillna(-1)
-
     table = dataconnection.get_newest_cars().fillna(-1)
-    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
-
+    table[['car_price']] = table[['car_price']].astype(int)
     return render_template("login.html", info_table=info_table, table=table, title='Login')
 
 
@@ -265,42 +247,32 @@ def login(template):
 @app.route("/forside")
 @mobile_template('{mobile/}index.html')
 def index(template):
-
     today = date.today()
     yesterday = today - timedelta(days=1)
     weekday = date.today().weekday()
     info_table = dataconnection.get_info_table().fillna(-1)
-
     newest_car = dataconnection.get_newest_car().fillna(-1)
-    newest_car[['car_price']] = newest_car[['car_price']].astype(int) # Fjerner .0
-
+    newest_car[['car_price']] = newest_car[['car_price']].astype(int)
     table = dataconnection.get_newest_cars().fillna(-1)
-    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
-
+    table[['car_price']] = table[['car_price']].astype(int)
     return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
 
 
 @app.route("/biler")
 @mobile_template('{mobile/}biler.html')
 def biler(template):
-
     info_table = dataconnection.get_info_table().fillna(-1)
-
     table = dataconnection.get_newest_cars().fillna(-1)
-    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
-
+    table[['car_price']] = table[['car_price']].astype(int)
     return render_template("biler.html", info_table=info_table, table=table, title='Biler på lager')
 
 
 @app.route("/bil/<int:car_ID>")
 @mobile_template('{mobile/}bil.html')
 def bil(template, car_ID):
-
     info_table = dataconnection.get_info_table().fillna(-1)
-
     table = dataconnection.get_specific_car(car_ID).fillna(-1)
-    table[['car_price']] = table[['car_price']].astype(int) # Fjerner .0
-
+    table[['car_price']] = table[['car_price']].astype(int)
     return render_template("bil.html", info_table=info_table, table=table, title='Bil')
 
 
@@ -308,7 +280,6 @@ def bil(template, car_ID):
 @mobile_template('{mobile/}kontakt_os.html')
 def kontakt_os(template):
     info_table = dataconnection.get_info_table().fillna(-1)
-    
     return render_template("kontakt_os.html", info_table=info_table, title='Kontakt os')
 
 
@@ -316,18 +287,15 @@ def kontakt_os(template):
 @mobile_template('{mobile/}om_os.html')
 def om_os(template):
     info_table = dataconnection.get_info_table().fillna(-1)
-    
     return render_template("om_os.html", info_table=info_table, title='Om os')
 
 
 @app.route("/qrtest")
 @mobile_template('{mobile/}qrtest.html')
 def qrtest(template):
-
     info_table = dataconnection.get_info_table().fillna(-1)
     newest_car = dataconnection.get_newest_car().fillna(-1)
-    newest_car[['car_price']] = newest_car[['car_price']].astype(int) # Fjerner .0
-
+    newest_car[['car_price']] = newest_car[['car_price']].astype(int)
     return render_template("qrtest.html", info_table=info_table, newest_car=newest_car, title='Qrtest')
 
 
@@ -335,5 +303,4 @@ def qrtest(template):
 @mobile_template('{mobile/}form.html')
 def form(template):
     info_table = dataconnection.get_info_table().fillna(-1)
-    
     return render_template("form.html", info_table=info_table, title='Form')
