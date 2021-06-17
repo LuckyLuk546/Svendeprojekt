@@ -296,6 +296,12 @@ def login(template):
         session['admin_login'] = 'not_admin'
         return redirect("/")
 
+@app.route("/logout", methods=['POST', 'GET'])
+@mobile_template('{mobile/}logout.html')
+def logout(template):
+    session['admin_login'] = 'not_admin'
+    return redirect("/")
+
 
 @app.route("/")
 @app.route("/index")
