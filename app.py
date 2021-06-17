@@ -285,16 +285,13 @@ def testdb():
 @app.route("/login", methods=['POST', 'GET'])
 @mobile_template('{mobile/}login.html')
 def login(template):
-    if 'admin_login' in session:
-        if request.method == 'POST':
-            user = request.form["nm"]
-            session['admin_login'] = user
-            return redirect('/')
-        else:
-            return render_template('login.html', title='Login')
+    session['admin_login'] = 'not_admin'
+    if request.method == 'POST':
+        user = request.form["nm"]
+        session['admin_login'] = user
+        return redirect('/')
     else:
-        session['admin_login'] = 'not_admin'
-        return redirect("/")
+        return render_template('login.html', title='Login')
 
 @app.route("/logout", methods=['POST', 'GET'])
 @mobile_template('{mobile/}logout.html')
