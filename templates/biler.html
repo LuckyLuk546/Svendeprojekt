@@ -12,7 +12,10 @@
     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-xs-5 car_overview" onclick="window.location.href='/bil/{{ row.car_ID}}'">
         <div class="card">
             <div class="container car_overview_image_div">
-                <img src="{{ row.car_thumbnail }}" alt="{{ row.car_brand}}" class="car_overview_image">
+                <img src="{{ row.car_thumbnail }}" alt="{{ row.car_brand}}" class="{% if row.car_sold == 'True' %}car_sold{% endif %} car_overview_image">
+                {% if row.car_sold == "True" %}
+                <div class="car_sold_text">Solgt</div>
+                {% endif %}
             </div>
             <div class="container brand_car_preview">
                 <h5 class="brand-text-center"><b>{{ row.car_brand}}</b></h5>

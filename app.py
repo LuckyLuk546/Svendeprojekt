@@ -88,7 +88,7 @@ class AddCar(FlaskForm):
         NumberRange(min=1.00, max=9999, message="Invalid horsepower")
         ])
     car_sold = SelectField('Solgt', [ InputRequired()],
-        choices=[ ('', ''), ('false', 'False'), ('true', 'True')])
+        choices=[ ('', ''), ('False', 'False'), ('True', 'True')])
     car_price = IntegerField('Totalomkostning', [ InputRequired(),
         NumberRange(min=1.00, max=9999999, message="Invalid price")
         ])
