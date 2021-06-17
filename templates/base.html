@@ -64,8 +64,14 @@
                     <li>
                         <a {% if active_page=='kontakt_os' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/kontakt_os">Kontakt os</a>
                     </li>
-                    <li>
+                    {# <li>
                         <a {% if active_page=='qr_scanner' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/qrtest">Qr scanner</a>
+                    </li> #}
+                    <li>
+                        <a {% if active_page=='add_car' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/add_car">Tilføj ny bil</a>
+                    </li>
+                    <li>
+                        <a {% if active_page=='view_car' %} id="nav-link-brand-active" {% else %} id="nav-link-brand" {% endif %} class="nav-link" href="/view_car">Rediger eller slet bil</a>
                     </li>
             </div>
         </nav>

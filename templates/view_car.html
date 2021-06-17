@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% import "wtf.html" as wtf %}
-{% set active_page = "form" %} 
+{% set active_page = "view_car" %} 
 {% block title %}{{title}}{% endblock %} 
 
 
@@ -35,7 +35,7 @@
 			<td>{{ car.car_horsepower }}</td>
 			<td>{{ car.car_sold }}</td>
 			<td>{{ car.car_price }}</td>
-			<td>{{ car.car_thumbnail }}</td>
+			<td><img src="{{ car.car_thumbnail }}" alt="{{ car.car_brand}}" class="small_image"></td>
 		</tr>
 		{% endfor %}
 	</table>

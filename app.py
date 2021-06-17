@@ -70,38 +70,38 @@ class cars(db.Model):
 class AddCar(FlaskForm):
     # id used only by update/edit
     car_ID = HiddenField()
-    car_brand = StringField('Mærke', [ InputRequired(),
+    car_brand = StringField('Mærke *', [ InputRequired(),
         Regexp(r'^[A-Za-z\s\-\']+$', message="Invalid brand name"),
         Length(min=1, max=25, message="Invalid brand name length")
         ])
-    car_model = StringField('Model', [ InputRequired(),
+    car_model = StringField('Model *', [ InputRequired(),
         Length(min=1, max=25, message="Invalid model name length")
         ])
     car_sub_model = StringField('Under model')
-    car_mileage = IntegerField('Car mileage', [ InputRequired(),
+    car_mileage = IntegerField('Kilometer *', [ InputRequired(),
         NumberRange(min=1, max=999999, message="Invalid mileage")
         ])
-    car_model_year = IntegerField('Model år', [ InputRequired(),
+    car_model_year = IntegerField('Model år *', [ InputRequired(),
         NumberRange(min=1.00, max=2022, message="Invalid model year")
         ])
-    car_horsepower = IntegerField('Hestekræfter', [ InputRequired(),
+    car_horsepower = IntegerField('Hestekræfter *', [ InputRequired(),
         NumberRange(min=1.00, max=9999, message="Invalid horsepower")
         ])
-    car_sold = SelectField('Solgt', [ InputRequired()],
+    car_sold = SelectField('Solgt *', [ InputRequired()],
         choices=[ ('', ''), ('False', 'False'), ('True', 'True')])
-    car_price = IntegerField('Totalomkostning', [ InputRequired(),
+    car_price = IntegerField('Totalomkostning *', [ InputRequired(),
         NumberRange(min=1.00, max=9999999, message="Invalid price")
         ])
-    car_thumbnail = StringField('Billede 1 (imgbb url)', [ InputRequired(),
+    car_thumbnail = StringField('Billede 1 (imgbb url) *', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    car_image_2 = StringField('Billede 2 (imgbb url)', [ InputRequired(),
+    car_image_2 = StringField('Billede 2 (imgbb url) *', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    car_image_3 = StringField('Billede 3 (imgbb url)', [ InputRequired(),
+    car_image_3 = StringField('Billede 3 (imgbb url) *', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
-    car_image_4 = StringField('Billede 4 (imgbb url)', [ InputRequired(),
+    car_image_4 = StringField('Billede 4 (imgbb url) *', [ InputRequired(),
         Length(min=1, max=250, message="Invalid url length")
         ])
     submit = SubmitField('Bekræft')
@@ -109,7 +109,7 @@ class AddCar(FlaskForm):
 class DeleteCar(FlaskForm):
     car_ID = HiddenField()
     purpose = HiddenField()
-    submit = SubmitField('Delete This Car')
+    submit = SubmitField('Slet denne bil')
     
 
 @app.route('/add_car', methods=['GET', 'POST'])
@@ -288,6 +288,13 @@ def kontakt_os(template):
 def om_os(template):
     info_table = dataconnection.get_info_table().fillna(-1)
     return render_template("om_os.html", info_table=info_table, title='Om os')
+
+    
+@app.route("/Admin")
+@mobile_template('{mobile/}admin_ui.html')
+def Admin(template):
+    info_table = dataconnection.get_info_table().fillna(-1)
+    return render_template("admin_ui.html", info_table=info_table, title='Admin')
 
 
 @app.route("/qrtest")

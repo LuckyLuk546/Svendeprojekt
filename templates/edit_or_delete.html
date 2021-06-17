@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% import "wtf.html" as wtf %}
-{% set active_page = "form" %} 
+{% set active_page = "view_car" %} 
 {% block title %}{{title}}{% endblock %} 
 
 
@@ -31,7 +31,7 @@
 			<tr><td>{{ car.car_horsepower }}</td></tr>
 			<tr><td>{{ car.car_sold }}</td></tr>
 			<tr><td>{{ car.car_price }}</td></tr>
-			<tr><td>{{ car.car_thumbnail }}</td></tr>
+			<tr><td><img src="{{ car.car_thumbnail }}" alt="{{ car.car_brand}}" class="medium_image"></td></tr>
 		</table>
 
   		<form action="{{ url_for('delete_result') }}" method="POST" id="delete">

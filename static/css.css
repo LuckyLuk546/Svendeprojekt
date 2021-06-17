@@ -237,6 +237,22 @@ html, body{
     overflow: hidden;
 }
 
+.small_image {
+    height: 100px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: -30px;
+    margin-right: 0px;
+}
+
+.medium_image {
+    height: 300px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 .car_overview_image {
     height: 280px;
     margin-top: 0px;
