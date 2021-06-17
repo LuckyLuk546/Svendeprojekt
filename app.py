@@ -270,27 +270,31 @@ def login(template):
 @app.route("/forside")
 @mobile_template('{mobile/}index.html')
 def index(template):
-    if session['admin_login'] == 'lukas546':
-        today = date.today()
-        yesterday = today - timedelta(days=1)
-        weekday = date.today().weekday()
-        info_table = dataconnection.get_info_table().fillna(-1)
-        newest_car = dataconnection.get_newest_car().fillna(-1)
-        newest_car[['car_price']] = newest_car[['car_price']].astype(int)
-        table = dataconnection.get_newest_cars().fillna(-1)
-        table[['car_price']] = table[['car_price']].astype(int)
-        return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
+    if 'admin_login' in session:
+        if session['admin_login'] == 'lukas546':
+            today = date.today()
+            yesterday = today - timedelta(days=1)
+            weekday = date.today().weekday()
+            info_table = dataconnection.get_info_table().fillna(-1)
+            newest_car = dataconnection.get_newest_car().fillna(-1)
+            newest_car[['car_price']] = newest_car[['car_price']].astype(int)
+            table = dataconnection.get_newest_cars().fillna(-1)
+            table[['car_price']] = table[['car_price']].astype(int)
+            return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
+        else:
+            session['admin_login'] = 'not_admin'
+            today = date.today()
+            yesterday = today - timedelta(days=1)
+            weekday = date.today().weekday()
+            info_table = dataconnection.get_info_table().fillna(-1)
+            newest_car = dataconnection.get_newest_car().fillna(-1)
+            newest_car[['car_price']] = newest_car[['car_price']].astype(int)
+            table = dataconnection.get_newest_cars().fillna(-1)
+            table[['car_price']] = table[['car_price']].astype(int)
+            return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
     else:
         session['admin_login'] = 'not_admin'
-        today = date.today()
-        yesterday = today - timedelta(days=1)
-        weekday = date.today().weekday()
-        info_table = dataconnection.get_info_table().fillna(-1)
-        newest_car = dataconnection.get_newest_car().fillna(-1)
-        newest_car[['car_price']] = newest_car[['car_price']].astype(int)
-        table = dataconnection.get_newest_cars().fillna(-1)
-        table[['car_price']] = table[['car_price']].astype(int)
-        return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
+        return redirect("/")
 
 
 @app.route("/biler")
