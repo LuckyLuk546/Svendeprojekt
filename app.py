@@ -1,5 +1,5 @@
 from flask_mobility.decorators import mobile_template
-from flask import Flask, render_template, url_for, request, flash
+from flask import Flask, render_template, url_for, request, flash, session, redirect
 from datetime import date, datetime, timedelta
 from flask_mobility import Mobility
 
@@ -114,132 +114,155 @@ class DeleteCar(FlaskForm):
 
 @app.route('/add_car', methods=['GET', 'POST'])
 def add_car():
-    now = datetime.now()
-    form1 = AddCar()
-    if form1.validate_on_submit():
-        car_brand = request.form['car_brand']
-        car_model = request.form['car_model']
-        car_sub_model = request.form['car_sub_model']
-        car_mileage = request.form['car_mileage']
-        car_model_year = request.form['car_model_year']
-        car_horsepower = request.form['car_horsepower']
-        car_sold = request.form['car_sold']
-        car_date_added = now
-        car_price = request.form['car_price']
-        car_thumbnail = request.form['car_thumbnail']
-        car_image_2 = request.form['car_image_2']
-        car_image_3 = request.form['car_image_3']
-        car_image_4 = request.form['car_image_4']
-        car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_date_added, car_price, car_thumbnail, car_image_2, car_image_3, car_image_4)
-        db.session.add(car)
-        db.session.commit()
-        message = f"{car_brand} {car_model} {car_sub_model} er tilføjet til databasen."
-        return render_template('add_car.html', message=message)
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
     else:
-        for field, errors in form1.errors.items():
-            for error in errors:
-                flash("Error in {}: {}".format(
-                    getattr(form1, field).label.text,
-                    error
-                ), 'error')
-        return render_template('add_car.html', form1=form1, title='Tilføj ny bil')
+        now = datetime.now()
+        form1 = AddCar()
+        if form1.validate_on_submit():
+            car_brand = request.form['car_brand']
+            car_model = request.form['car_model']
+            car_sub_model = request.form['car_sub_model']
+            car_mileage = request.form['car_mileage']
+            car_model_year = request.form['car_model_year']
+            car_horsepower = request.form['car_horsepower']
+            car_sold = request.form['car_sold']
+            car_date_added = now
+            car_price = request.form['car_price']
+            car_thumbnail = request.form['car_thumbnail']
+            car_image_2 = request.form['car_image_2']
+            car_image_3 = request.form['car_image_3']
+            car_image_4 = request.form['car_image_4']
+            car = cars(car_brand, car_model, car_sub_model, car_mileage, car_model_year, car_horsepower, car_sold, car_date_added, car_price, car_thumbnail, car_image_2, car_image_3, car_image_4)
+            db.session.add(car)
+            db.session.commit()
+            message = f"{car_brand} {car_model} {car_sub_model} er tilføjet til databasen."
+            return render_template('add_car.html', message=message)
+        else:
+            for field, errors in form1.errors.items():
+                for error in errors:
+                    flash("Error in {}: {}".format(
+                        getattr(form1, field).label.text,
+                        error
+                    ), 'error')
+            return render_template('add_car.html', form1=form1, title='Tilføj ny bil')
 
 
 @app.route('/view_car', methods=['GET', 'POST'])
 def view_car():
-    cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
-    return render_template('view_car.html', cars_view=cars_view)
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
+    else:
+        cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
+        return render_template('view_car.html', cars_view=cars_view)
 
 
 @app.route('/edit_or_delete', methods=['POST'])
 def edit_or_delete():
-    id = request.form['id']
-    choice = request.form['choice']
-    car = cars.query.filter(cars.car_ID == id).first()
-    form1 = AddCar()
-    form2 = DeleteCar()
-    return render_template('edit_or_delete.html', car=car, form1=form1, form2=form2, choice=choice)
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
+    else:
+        id = request.form['id']
+        choice = request.form['choice']
+        car = cars.query.filter(cars.car_ID == id).first()
+        form1 = AddCar()
+        form2 = DeleteCar()
+        return render_template('edit_or_delete.html', car=car, form1=form1, form2=form2, choice=choice)
 
 
 @app.route('/delete_result', methods=['POST'])
 def delete_result():
-    id = request.form['car_ID']
-    purpose = request.form['purpose']
-    car = cars.query.filter(cars.car_ID == id).first()
-    if purpose == 'delete':
-        db.session.delete(car)
-        db.session.commit()
-        message = f"Bilen {car.car_brand} {car.car_model} er blevet slettet fra databasen"
-        return render_template('result.html', message=message)
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
     else:
-        abort(405)
+        id = request.form['car_ID']
+        purpose = request.form['purpose']
+        car = cars.query.filter(cars.car_ID == id).first()
+        if purpose == 'delete':
+            db.session.delete(car)
+            db.session.commit()
+            message = f"Bilen {car.car_brand} {car.car_model} er blevet slettet fra databasen"
+            return render_template('result.html', message=message)
+        else:
+            abort(405)
 
 
 @app.route('/edit_result', methods=['POST'])
 def edit_result():
-    id = request.form['car_ID']
-    car = cars.query.filter(cars.car_ID == id).first()
-    car.car_brand = request.form['car_brand']
-    car.car_model = request.form['car_model']
-    car.car_sub_model = request.form['car_sub_model']
-    car.car_mileage = request.form['car_mileage']
-    car.car_model_year = request.form['car_model_year']
-    car.car_horsepower = request.form['car_horsepower']
-    car.car_sold = request.form['car_sold']
-    car.car_price = request.form['car_price']
-    car.car_thumbnail = request.form['car_thumbnail']
-    car.car_image_2 = request.form['car_image_2']
-    car.car_image_3 = request.form['car_image_3']
-    car.car_image_4 = request.form['car_image_4']
-    form1 = AddCar()
-    if form1.validate_on_submit():
-        db.session.commit()
-        message = f"Bil med id: {car.car_ID} er blevet opdateret."
-        return render_template('result.html', message=message)
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
     else:
-        car.car_ID = id
-        for field, errors in form1.errors.items():
-            for error in errors:
-                flash("Error in {}: {}".format(
-                    getattr(form1, field).label.text,
-                    error
-                ), 'error')
-        return render_template('edit_or_delete.html', form1=form1, car=car, choice='edit')
+        id = request.form['car_ID']
+        car = cars.query.filter(cars.car_ID == id).first()
+        car.car_brand = request.form['car_brand']
+        car.car_model = request.form['car_model']
+        car.car_sub_model = request.form['car_sub_model']
+        car.car_mileage = request.form['car_mileage']
+        car.car_model_year = request.form['car_model_year']
+        car.car_horsepower = request.form['car_horsepower']
+        car.car_sold = request.form['car_sold']
+        car.car_price = request.form['car_price']
+        car.car_thumbnail = request.form['car_thumbnail']
+        car.car_image_2 = request.form['car_image_2']
+        car.car_image_3 = request.form['car_image_3']
+        car.car_image_4 = request.form['car_image_4']
+        form1 = AddCar()
+        if form1.validate_on_submit():
+            db.session.commit()
+            message = f"Bil med id: {car.car_ID} er blevet opdateret."
+            return render_template('result.html', message=message)
+        else:
+            car.car_ID = id
+            for field, errors in form1.errors.items():
+                for error in errors:
+                    flash("Error in {}: {}".format(
+                        getattr(form1, field).label.text,
+                        error
+                    ), 'error')
+            return render_template('edit_or_delete.html', form1=form1, car=car, choice='edit')
 
 
 @app.route('/view_car_first', methods=['GET', 'POST'])
 def view_car_first():
-    try:
-        cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
-        car_text = '<ul>'
-        for car in cars_view:
-            car_text += '<li>' + car.car_brand + ', ' + car.car_model + '</li>'
-        car_text += '</ul>'
-        return car_text
-    except Exception as e:
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
+    else:
+        try:
+            cars_view = cars.query.filter_by().order_by(cars.car_brand).all()
+            car_text = '<ul>'
+            for car in cars_view:
+                car_text += '<li>' + car.car_brand + ', ' + car.car_model + '</li>'
+            car_text += '</ul>'
+            return car_text
+        except Exception as e:
+            error_text = "<p>The error:<br>" + str(e) + "</p>"
+            hed = '<h1>Something is broken.</h1>'
+            return hed + error_text
 
 
 @app.route('/testconnection')
 def testdb():
-    try:
-        db.session.query(text('1')).from_statement(text('SELECT 1')).all()
-        return '<h1>It works.</h1>'
-    except Exception as e:
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
+    if session['admin_login'] == 'not_admin':
+        return redirect('/')
+    else:
+        try:
+            db.session.query(text('1')).from_statement(text('SELECT 1')).all()
+            return '<h1>It works.</h1>'
+        except Exception as e:
+            error_text = "<p>The error:<br>" + str(e) + "</p>"
+            hed = '<h1>Something is broken.</h1>'
+            return hed + error_text
 
 
-@app.route("/login")
+@app.route("/login", methods=['POST', 'GET'])
 @mobile_template('{mobile/}login.html')
 def login(template):
-    info_table = dataconnection.get_info_table().fillna(-1)
-    table = dataconnection.get_newest_cars().fillna(-1)
-    table[['car_price']] = table[['car_price']].astype(int)
-    return render_template("login.html", info_table=info_table, table=table, title='Login')
+    if request.method == 'POST':
+        user = request.form["nm"]
+        session['admin_login'] = user
+        return redirect('/')
+    else:
+        return render_template('login.html', title='Login')
 
 
 @app.route("/")
@@ -247,15 +270,27 @@ def login(template):
 @app.route("/forside")
 @mobile_template('{mobile/}index.html')
 def index(template):
-    today = date.today()
-    yesterday = today - timedelta(days=1)
-    weekday = date.today().weekday()
-    info_table = dataconnection.get_info_table().fillna(-1)
-    newest_car = dataconnection.get_newest_car().fillna(-1)
-    newest_car[['car_price']] = newest_car[['car_price']].astype(int)
-    table = dataconnection.get_newest_cars().fillna(-1)
-    table[['car_price']] = table[['car_price']].astype(int)
-    return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
+    if session['admin_login'] == 'lukas546':
+        today = date.today()
+        yesterday = today - timedelta(days=1)
+        weekday = date.today().weekday()
+        info_table = dataconnection.get_info_table().fillna(-1)
+        newest_car = dataconnection.get_newest_car().fillna(-1)
+        newest_car[['car_price']] = newest_car[['car_price']].astype(int)
+        table = dataconnection.get_newest_cars().fillna(-1)
+        table[['car_price']] = table[['car_price']].astype(int)
+        return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
+    else:
+        session['admin_login'] = 'not_admin'
+        today = date.today()
+        yesterday = today - timedelta(days=1)
+        weekday = date.today().weekday()
+        info_table = dataconnection.get_info_table().fillna(-1)
+        newest_car = dataconnection.get_newest_car().fillna(-1)
+        newest_car[['car_price']] = newest_car[['car_price']].astype(int)
+        table = dataconnection.get_newest_cars().fillna(-1)
+        table[['car_price']] = table[['car_price']].astype(int)
+        return render_template("index.html", info_table=info_table, today=today, yesterday=yesterday, weekday=weekday, table=table, newest_car=newest_car, title='Svend-Leasing')
 
 
 @app.route("/biler")
