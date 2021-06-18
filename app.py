@@ -306,7 +306,7 @@ def logout(template):
 @mobile_template('{mobile/}index.html')
 def index(template):
     if 'admin_login' in session:
-        if session['admin_login'] == 'lukas546':
+        if session['admin_login'] == 'svend546':
             today = date.today()
             yesterday = today - timedelta(days=1)
             weekday = date.today().weekday()
